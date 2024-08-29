@@ -1,0 +1,77 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+.week-planner{
+    box-sizing: content-box;
+    max-width: 100%;
+    margin: 20px;
+    padding: 10px;
+    border: 2px solid;
+    border-color: lightgrey;
+    border-radius: 15px;
+}
+.weekday-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.week-label{
+    display: flex;
+    justify-content: space-around;
+}
+.day{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    border: solid;
+    border-color: lightgrey;
+    border-width: 0 1px 0 1px;
+    width: 100%;
+    margin: 4px;
+    padding: 4px;
+}
+.event{
+    color: white;
+    background-color: #008CBA;
+}
+.event-disabled {
+    color: white;
+    background-color: #008CBA;
+    opacity: 0.5;
+    pointer-events: none;
+}
+.column-div {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
+.pgbutton{
+    border-style: solid;
+    border-color: #797979;
+    background-color: white;
+
+    color: black;
+
+    padding: 8px 48px 8px 48px;
+}
+.pgbutton:hover{
+    background-color: #cccccc
+}
+button {
+    padding: 4px 8px 4px 8px;
+    margin: 4px;
+    background-color: #008CBA;
+    color: white;
+    transition-duration: 0.2s;
+
+    border-color: #00536e;
+    border-radius: 8px;
+    border-style: solid;
+}
+button:hover{
+    background-color: white;
+    color: black;
+}

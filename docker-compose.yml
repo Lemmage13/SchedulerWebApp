@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+
+  schedulerwebapp.server:
+    image: ${DOCKER_REGISTRY-}schedulerwebappserver
+    build:
+      context: .
+      dockerfile: SchedulerWebApp.Server/Dockerfile
+    ports:
+    - '54249:8081'
+
+  sql:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: sql_server2022
+    ports:
+      - "1433:1433" 
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=TestPassword13

@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[RegularEvents]
+(
+	[Id] INT NOT NULL PRIMARY KEY,
+	[Name] NVARCHAR(MAX) NOT NULL
+)
