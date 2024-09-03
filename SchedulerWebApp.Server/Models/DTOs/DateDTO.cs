@@ -1,4 +1,4 @@
-﻿namespace SchedulerWebApp.Server.DTOs
+﻿namespace SchedulerWebApp.Server.Models.DTOs
 {
     public class DateDTO
     {

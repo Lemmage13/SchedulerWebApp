@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SchedulerWebApp.Server.Models;
 
 namespace SchedulerWebApp.Server.Data
 {
-    public class PlannerContext : DbContext
+    public class PlannerContext : IdentityDbContext
     {
         public PlannerContext(DbContextOptions<PlannerContext> options) : base(options) 
         { 

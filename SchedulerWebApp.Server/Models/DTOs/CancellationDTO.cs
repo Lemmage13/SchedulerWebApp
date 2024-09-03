@@ -1,5 +1,5 @@
 ﻿using SchedulerWebApp.Server.Models;
-namespace SchedulerWebApp.Server.DTOs
+namespace SchedulerWebApp.Server.Models.DTOs
 {
     public class CancellationDTO
     {
