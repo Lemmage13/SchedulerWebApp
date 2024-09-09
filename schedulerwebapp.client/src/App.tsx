@@ -5,11 +5,17 @@ import ProtectedRoutes from "./Tools/ProtectedRoutes"
 import Register from './Register';
 import { createContext, useState } from 'react';
 import ITokenContext from './interfaces/TokenContext';
+import { useEffect } from 'react';
 
 export const TokenContext = createContext<ITokenContext>({})
 function App() {
     const [token, setToken] = useState(null)
-    const tokenContextValue: ITokenContext = {token, setToken}
+    const tokenContextValue: ITokenContext = { token, setToken }
+
+    useEffect(() => {
+        console.log(tokenContextValue.token)
+    },
+    [tokenContextValue.token])
 
     return (
         <TokenContext.Provider value={tokenContextValue}>

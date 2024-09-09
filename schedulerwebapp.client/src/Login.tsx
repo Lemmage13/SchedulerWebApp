@@ -3,11 +3,15 @@ import { SetStateAction, useContext } from "react"
 import { TokenContext } from "./App"
 import axios from "axios"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 function Login() {
     const tokenContext = useContext(TokenContext)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+
+    const nav = useNavigate()
+
     async function handleLogin() {
         try {
             const response = await axios.post("https://localhost:54249/api/Auth/login",
@@ -16,7 +20,8 @@ function Login() {
                     password: password
                 })
             console.log(response.data)
-            tokenContext.setToken? tokenContext.setToken(response.data.token) : console.error("SET TOKEN UNDEFINED")
+            tokenContext.setToken ? tokenContext.setToken(response.data.token) : console.error("SET TOKEN UNDEFINED")
+            nav("/planner")
         }
         catch (e) {
             console.error(e)
