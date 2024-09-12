@@ -109,7 +109,7 @@ namespace SchedulerWebApp.Server.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("RefreshToken")]
         public async Task<IActionResult> refreshToken()
         {
