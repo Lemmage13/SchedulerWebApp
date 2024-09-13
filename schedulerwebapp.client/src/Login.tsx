@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardActions, CardHeader, Stack, TextField } from "@mui/material"
 import { SetStateAction, useContext } from "react"
 import { TokenContext } from "./App"
-import axios from "axios"
+import {server } from "./Hooks/UseAxios"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -14,13 +14,13 @@ function Login() {
 
     async function handleLogin() {
         try {
-            const response = await axios.post("https://localhost:54249/api/Auth/login",
+            const response = await server.post("https://localhost:54249/api/Auth/login",
                 {
                     email: email,
                     password: password
                 })
             console.log(response.data)
-            tokenContext.setToken ? tokenContext.setToken(response.data.token) : console.error("SET TOKEN UNDEFINED")
+            tokenContext.setJwt ? tokenContext.setJwt(response.data.token) : console.error("SET TOKEN UNDEFINED")
             nav("/planner")
         }
         catch (e) {

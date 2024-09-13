@@ -8,8 +8,8 @@ import ICancellation from "./interfaces/Cancellation";
 import React from "react";
 import IEventsContext from "./interfaces/EventsContext";
 import INRReply from "./interfaces/NREventReply";
-import { TokenContext } from "./App";
 import useAxiosAuth from "./Hooks/UseAxiosAuth"
+import { TokenContext } from "./App";
 
 
 
@@ -46,13 +46,7 @@ function addWeekDays(n: number, dayArray: Array<Date>) {
 
 export const EventsContext = React.createContext<IEventsContext | null>(null)
 function WeekPlanner() {
-
-    const EventsServer = axios.create({
-        baseURL: "https://localhost:54249/api/Events"
-    })
-
-    const axiosEvents = useAxiosAuth(EventsServer)
-
+    const axiosAuth = useAxiosAuth()
 
     const [WeekDays, setWeekDays]: [Date[], (WeekDays: Date[]) => void] = useState(GenerateWeekDays(new Date()))
 
@@ -76,7 +70,7 @@ function WeekPlanner() {
         console.log("updating RegEvents")
         let regEvents: Array<IRegEvent> = new Array<IRegEvent>()
         try {
-            const response = await axiosEvents.get("/RegEvents")
+            const response = await axiosAuth.get("/Events/RegEvents")
             regEvents = response.data.map((e: IRegEvent) => ({
                 ...e
             }))
@@ -90,7 +84,7 @@ function WeekPlanner() {
         console.log("updating NR Events")
         let nrEvents: INREvent[] = new Array<INREvent>()
         try {
-            const response = await axiosEvents.get("/NREvents")
+            const response = await axiosAuth.get("/Events/NREvents")
             nrEvents = response.data.map((e: INREvent) => ({
                 ...e,
                 date: new Date(e.date)
@@ -105,7 +99,7 @@ function WeekPlanner() {
         console.log("updating Cancellations")
         let cancellations: ICancellation[] = new Array<ICancellation>
         try {
-            const response = await axiosEvents.get("/Cancellations")
+            const response = await axiosAuth.get("/Events/Cancellations")
             cancellations = response.data.map((c: ICancellation) => ({
                 ...c,
                 date: new Date(c.date)
@@ -120,7 +114,7 @@ function WeekPlanner() {
         console.log("updating NR Event Replies")
         let replies: INRReply[] = new Array<INRReply>
         try {
-            const response = await EventsServer.get("/NREvents/Replies")
+            const response = await axiosAuth.get("/Events/NREvents/Replies")
             replies = response.data.map((r: INRReply) => ({
                 ...r
             }))

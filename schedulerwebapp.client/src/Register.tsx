@@ -25,7 +25,7 @@ function Register() {
                     password: pw1
                 })
             console.log(response.data)
-            tokenContext.setToken ? tokenContext.setToken(response.data.token) : console.error("SET TOKEN UNDEFINED")
+            tokenContext.setJwt ? tokenContext.setJwt(response.data.token) : console.error("SET TOKEN UNDEFINED")
             nav("/planner")
         }
         catch (e) {

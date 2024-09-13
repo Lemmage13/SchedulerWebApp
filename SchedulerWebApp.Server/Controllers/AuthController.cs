@@ -64,7 +64,7 @@ namespace SchedulerWebApp.Server.Controllers
 
             if (isCreated.Succeeded)
             {
-                Response.Cookies.Append("Refresh-Token", GenerateRefresh(newUser));
+                Response.Cookies.Append("Refresh-Token", GenerateRefresh(newUser), new CookieOptions() { SameSite = SameSiteMode.Strict, IsEssential = true});
                 return Ok(AuthSuccess(newUser));
             }
             else
@@ -104,7 +104,7 @@ namespace SchedulerWebApp.Server.Controllers
             }
             else
             {
-                Response.Cookies.Append("Refresh-Token", GenerateRefresh(user));
+                Response.Cookies.Append("Refresh-Token", GenerateRefresh(user), new CookieOptions() { SameSite = SameSiteMode.Strict, IsEssential = true});
                 return Ok(AuthSuccess(user));
             }
         }

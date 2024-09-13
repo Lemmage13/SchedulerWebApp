@@ -9,13 +9,13 @@ import { useEffect } from 'react';
 
 export const TokenContext = createContext<ITokenContext>({})
 function App() {
-    const [token, setToken] = useState(null)
-    const tokenContextValue: ITokenContext = { token, setToken }
+    const [jwt, setJwt] = useState(null)
+    const tokenContextValue: ITokenContext = { jwt, setJwt }
 
     useEffect(() => {
-        console.log(tokenContextValue.token)
+        console.log(tokenContextValue.jwt)
     },
-    [tokenContextValue.token])
+    [tokenContextValue.jwt])
 
     return (
         <TokenContext.Provider value={tokenContextValue}>

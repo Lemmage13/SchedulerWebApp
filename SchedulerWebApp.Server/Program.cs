@@ -21,8 +21,10 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("https://localhost:5173")
             .AllowAnyMethod()
-            .AllowAnyHeader();
+            .AllowAnyHeader()
+            .AllowCredentials();
         });
+
 });
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

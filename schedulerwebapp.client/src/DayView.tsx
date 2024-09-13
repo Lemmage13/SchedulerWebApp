@@ -13,7 +13,6 @@ const daysOfWeek: string[] = ["Sun", "Mon", "Tues", "Weds", "Thurs", "Fri", "Sat
 function IsPast(day: Date): boolean {
     const now: Date = new Date()
     const currentDay: Date = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    console.log(`${day} vs ${currentDay} in the past? ${day>currentDay}`)
     return day < currentDay
 }
 function DayView({ day }: DayProps) {
