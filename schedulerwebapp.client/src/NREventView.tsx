@@ -1,11 +1,11 @@
 import { Card, CardHeader, CardActions, Button } from "@mui/material";
-import axios from "axios";
 import { useContext } from "react";
 import BasicMenu from "./BasicMenu.tsx";
 import IEventContainer from "./interfaces/EventContainer";
 import IEventsContext from "./interfaces/EventsContext.tsx";
 import IMenuMethod from "./interfaces/MenuMethod.tsx";
 import { EventsContext } from "./WeekPlanner";
+import useAxiosAuth from "./Hooks/UseAxiosAuth.tsx";
 
 
 interface props {
@@ -14,6 +14,7 @@ interface props {
 }
 function NREventView({ eventContainer, disabled }: props) {
     const eventsContext: IEventsContext | null = useContext(EventsContext)
+    const axiosAuth = useAxiosAuth()
 
 
     const optionsMenuItems: IMenuMethod[] = []
@@ -21,7 +22,7 @@ function NREventView({ eventContainer, disabled }: props) {
     async function handleNREventAccept(): Promise<void> {
         //call api to update reply to accepted state
         try {
-            const response = await axios.put(`https://localhost:54249/api/Events/NREvents/Replies/${eventContainer.reply?.id}`, {
+            const response = await axiosAuth.put(`https://localhost:54249/api/Events/NREvents/Replies/${eventContainer.reply?.id}`, {
                 id: eventContainer.reply?.id,
                 nonRegularEventId: eventContainer.reply?.nonRegularEventId,
                 accepted: true
@@ -36,7 +37,7 @@ function NREventView({ eventContainer, disabled }: props) {
     async function handleNREventDecline(): Promise<void> {
         //call api to update reply to declined state
         try {
-            const response = await axios.put(`https://localhost:54249/api/Events/NREvents/Replies/${eventContainer.reply?.id}`, {
+            const response = await axiosAuth.put(`https://localhost:54249/api/Events/NREvents/Replies/${eventContainer.reply?.id}`, {
                 id: eventContainer.reply?.id,
                 nonRegularEventId: eventContainer.reply?.nonRegularEventId,
                 accepted: false

@@ -1,5 +1,4 @@
 import {useContext} from "react";
-import axios from "axios";
 import IEventContainer from "./interfaces/EventContainer";
 import IMenuMethod from "./interfaces/MenuMethod";
 import BasicMenu from "./BasicMenu";
@@ -9,6 +8,7 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import IEventsContext from "./interfaces/EventsContext.tsx"
 import { EventsContext } from "./WeekPlanner.tsx"
+import useAxiosAuth from "./Hooks/UseAxiosAuth.tsx";
 
 interface props {
     eventContainer: IEventContainer;
@@ -17,6 +17,7 @@ interface props {
 }
 function RegEventView({ eventContainer, disabled, day }: props) {
     const eventsContext: IEventsContext | null = useContext(EventsContext)
+    const axiosAuth = useAxiosAuth()
 
     const disabledOrCancelled: boolean = disabled || eventContainer.cancellation != undefined
     const eventIsNotCancelled = eventContainer.cancellation == undefined 
@@ -25,7 +26,7 @@ function RegEventView({ eventContainer, disabled, day }: props) {
 
     async function handleCancelRegEvent(): Promise<void> {
         try {
-            const response = await axios.post("https://localhost:54249/api/Events/Cancellations", {
+            const response = await axiosAuth.post("https://localhost:54249/api/Events/Cancellations", {
                 regEventId: eventContainer.event.id,
                 date: {
                     Year: day.getFullYear(),
@@ -38,19 +39,19 @@ function RegEventView({ eventContainer, disabled, day }: props) {
         catch (e) {
             console.log(e)
         }
-        eventsContext.updateEvents()
+        eventsContext?.updateEvents()
     }
     async function handleUncancelRegEvent(): Promise<void> {
         if (eventContainer.cancellation != undefined) {
             try {
-                const response = await axios.delete(`https://localhost:54249/api/Events/Cancellations/${eventContainer.cancellation.id}`)
+                const response = await axiosAuth.delete(`https://localhost:54249/api/Events/Cancellations/${eventContainer.cancellation.id}`)
                 console.log(response)
             }
             catch (e) {
                 console.log(e)
             }
         }
-        eventsContext.updateEvents()
+        eventsContext?.updateEvents()
     }
     return (
         <Card

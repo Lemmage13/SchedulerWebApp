@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DayView from "./DayView";
-import axios from "axios";
 import IRegEvent from "./interfaces/RegEvent";
 import INREvent from "./interfaces/NREvent";
 import "./WeekPlanner.css";
@@ -8,8 +7,7 @@ import ICancellation from "./interfaces/Cancellation";
 import React from "react";
 import IEventsContext from "./interfaces/EventsContext";
 import INRReply from "./interfaces/NREventReply";
-import useAxiosAuth from "./Hooks/UseAxiosAuth"
-import { TokenContext } from "./App";
+import useAxiosAuth from "./Hooks/UseAxiosAuth";
 
 
 
