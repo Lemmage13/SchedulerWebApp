@@ -6,6 +6,10 @@ import IEventContainer from "./interfaces/EventContainer.tsx"
 import IEventsContext from "./interfaces/EventsContext.tsx"
 import { sameDay } from "./Tools/DateTools.tsx"
 import NREventView from "./NREventView.tsx"
+import { IconButton } from "@mui/material"
+import { AddCircleOutline } from "@mui/icons-material"
+import AddEventDialogue from "./AddEventDialogue.tsx"
+import { useState } from "react"
 interface DayProps {
     day: Date;
 }
@@ -56,6 +60,14 @@ function DayView({ day }: DayProps) {
         }
         return dayNREvents
     }
+    const [addEventDialogueOpen, setAddEventDialogueOpen] = useState(false);
+    function handleOpenAddEventDialogue() {
+        setAddEventDialogueOpen(true)
+    }
+    function handleOpenEventDialogueClose() {
+        eventsValues?.updateEvents()
+        setAddEventDialogueOpen(false)
+    }
     return (
         <div className="day">
             <h3>{daysOfWeek[day.getDay()]}</h3>
@@ -70,6 +82,10 @@ function DayView({ day }: DayProps) {
                     return <NREventView key={index} eventContainer={e} disabled={IsPast(day)}></NREventView>
                 })
             }
+            <IconButton onClick={handleOpenAddEventDialogue }>
+                <AddCircleOutline/>
+            </IconButton>
+            <AddEventDialogue open={addEventDialogueOpen} date={ day } onClose={handleOpenEventDialogueClose}></AddEventDialogue>
         </div>
     );
 }

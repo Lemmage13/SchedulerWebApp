@@ -22,7 +22,10 @@ function RegEventView({ eventContainer, disabled, day }: props) {
     const disabledOrCancelled: boolean = disabled || eventContainer.cancellation != undefined
     const eventIsNotCancelled = eventContainer.cancellation == undefined 
 
-    const optionsMenuItems: Array<IMenuMethod> = [{ name: "Uncancel Event", method: () => { handleUncancelRegEvent() }, disabled: eventIsNotCancelled }, { name: "test2", method: () => { } }]
+    const optionsMenuItems: Array<IMenuMethod> = [
+        { name: "Uncancel Event", method: () => { handleUncancelRegEvent() }, disabled: eventIsNotCancelled },
+        { name: "Delete Event", method: () => { handleDeleteregEvent() } }
+    ]
 
     async function handleCancelRegEvent(): Promise<void> {
         try {
@@ -50,6 +53,16 @@ function RegEventView({ eventContainer, disabled, day }: props) {
             catch (e) {
                 console.log(e)
             }
+        }
+        eventsContext?.updateEvents()
+    }
+    async function handleDeleteregEvent(): Promise<void> {
+        try {
+            const response = await axiosAuth.delete(`https://localhost:54249/api/Events/RegEvents/${eventContainer.event.id}`)
+            console.log(response)
+        }
+        catch (e) {
+            console.error(e)
         }
         eventsContext?.updateEvents()
     }

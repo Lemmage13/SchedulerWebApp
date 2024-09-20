@@ -5,6 +5,8 @@ using SchedulerWebApp.Server.Data;
 using SchedulerWebApp.Server.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,6 +24,7 @@ namespace SchedulerWebApp.Server.Controllers
             _plannerContext = plannerContext;
             _cancellationOrganiser = new CancellationOrganiser(plannerContext);
         }
+        #region RegEvents
         [HttpGet]
         [Route("RegEvents")]
         [ProducesResponseType(200, Type = typeof(RepeatEvent[]))]
@@ -34,6 +37,40 @@ namespace SchedulerWebApp.Server.Controllers
 
             return Ok(_plannerContext.RepeatEvents.OrderBy(e => e.Id));
         }
+        [HttpPost]
+        [Route("RegEvents")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> AddRegEvent([FromBody] RegEventDTO newEvent)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+
+            Debug.WriteLine(newEvent.Name);
+            Debug.WriteLine(newEvent.Weekday);
+            Debug.WriteLine(newEvent.Time);
+
+            RepeatEvent rE = new RepeatEvent() { Name = newEvent.Name, Time = newEvent.Time, DayOfWeek = newEvent.Weekday };
+            await _plannerContext.RepeatEvents.AddAsync(rE);
+            await _plannerContext.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(rE), rE);
+        }
+        [HttpDelete]
+        [Route("RegEvents/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteRegEvent(int id)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+
+            RepeatEvent? rE = await _plannerContext.RepeatEvents.FirstOrDefaultAsync(e => e.Id == id);
+            if (rE == null) { return NotFound(); }
+
+            _plannerContext.RepeatEvents.Remove(rE);
+            _plannerContext.SaveChangesAsync();
+
+            return Ok();
+        }
+        #endregion RegEvents
         #region NREvents
         [HttpGet]
         [Route("NREvents")]

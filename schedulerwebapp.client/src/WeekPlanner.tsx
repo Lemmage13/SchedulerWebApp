@@ -125,9 +125,6 @@ function WeekPlanner() {
 
     const eventsContextValue: IEventsContext = { regEvents, setRegEvents, nrEvents, setNREvents, cancellations, setCancellations, nreReplies, updateEvents}
 
-    useEffect(() => {
-    })
-
 
     const [loading, setLoading] = useState(true);
     
