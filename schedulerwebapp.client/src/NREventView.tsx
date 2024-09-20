@@ -17,8 +17,19 @@ function NREventView({ eventContainer, disabled }: props) {
     const axiosAuth = useAxiosAuth()
 
 
-    const optionsMenuItems: IMenuMethod[] = []
+    const optionsMenuItems: IMenuMethod[] = [
+        { name: "Delete", method: () => { handleDeleteNREvent() } }]
 
+    async function handleDeleteNREvent() {
+        try {
+            const response = await axiosAuth.delete(`https://localhost:54249/api/Events/NREvents/${eventContainer.event.id}`)
+            console.log(response)
+        }
+        catch (e) {
+            console.error(e)
+        }
+        eventsContext?.updateEvents()
+    }
     async function handleNREventAccept(): Promise<void> {
         //call api to update reply to accepted state
         try {

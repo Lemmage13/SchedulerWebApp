@@ -44,15 +44,11 @@ namespace SchedulerWebApp.Server.Controllers
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
-            Debug.WriteLine(newEvent.Name);
-            Debug.WriteLine(newEvent.Weekday);
-            Debug.WriteLine(newEvent.Time);
-
             RepeatEvent rE = new RepeatEvent() { Name = newEvent.Name, Time = newEvent.Time, DayOfWeek = newEvent.Weekday };
             await _plannerContext.RepeatEvents.AddAsync(rE);
             await _plannerContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(rE), rE);
+            return Ok();
         }
         [HttpDelete]
         [Route("RegEvents/{id}")]
@@ -98,6 +94,22 @@ namespace SchedulerWebApp.Server.Controllers
             DateOnly formattedDate = DateOnly.Parse(date);
 
             return Ok(_plannerContext.Cancellations.Where(e => e.Date == formattedDate));
+        }
+
+        [HttpDelete]
+        [Route("NREvents/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteNREvent(int id)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+
+            NonRegularEvent? nrE = await _plannerContext.NonRegularEvents.FirstOrDefaultAsync(e => e.Id == id);
+            if (nrE == null) { return NotFound(); }
+
+            _plannerContext.Remove(nrE);
+            _plannerContext.SaveChangesAsync();
+
+            return Ok();
         }
         #region NREventReplies
         [HttpGet]
